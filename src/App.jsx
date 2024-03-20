@@ -10,6 +10,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const questionsPerPage = 10;
 
+  // filter the question according to the active tag
   useEffect(() => {
     if (selectedTag === 'All') {
       setFilteredQuestions(questions);
@@ -26,6 +27,7 @@ function App() {
     setSelectedTag(tag);
   };
 
+  // render the tags list
   const renderTags = () => {
     const allTags = ['All', ...new Set(questions.flatMap(q => q.tags))];
     return allTags.map(tag => (
@@ -39,15 +41,15 @@ function App() {
     ));
   };
 
-  // Pagination
+  // pagination
   const indexOfLastQuestion = currentPage * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
   const currentQuestions = filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion);
 
-  // Change page
+  // change page
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
-  // Render page numbers
+  // render page numbers
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(filteredQuestions.length / questionsPerPage); i++) {
     pageNumbers.push(i);
@@ -73,18 +75,18 @@ function App() {
           ))}
         </div>
         {/* Pagination */}
-      <div className="pagination">
-        <span>
-          Showing {indexOfFirstQuestion + 1} - {Math.min(indexOfLastQuestion, filteredQuestions.length)} of {filteredQuestions.length} questions
-        </span>
-        <ul className="page-numbers">
-          {pageNumbers.map(number => (
-            <li key={number} >
-              <button onClick={() => paginate(number)} className={`pagination-number-button ${number === currentPage ? 'active' : ''}`}>{number}</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div className="pagination">
+          <span>
+            Showing {indexOfFirstQuestion + 1} - {Math.min(indexOfLastQuestion, filteredQuestions.length)} of {filteredQuestions.length} questions
+          </span>
+          <ul className="page-numbers">
+            {pageNumbers.map(number => (
+              <li key={number} >
+                <button onClick={() => paginate(number)} className={`pagination-number-button ${number === currentPage ? 'active' : ''}`}>{number}</button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </main>
       <Footer />
     </>
